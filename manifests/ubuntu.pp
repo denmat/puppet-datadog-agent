@@ -40,6 +40,7 @@ class datadog_agent::ubuntu(
   if $::apt_agent6_beta_repo and $agent_version == 'latest' {
     exec { 'datadog_apt-get_remove_agent6':
       command     => '/usr/bin/apt-get remove -y -q datadog-agent',
+      onlyif  => '/usr/bin/dpkg -l datadog-agent > /dev/null'
     }
   } else {
     exec { 'datadog_apt-get_remove_agent6':
