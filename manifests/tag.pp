@@ -4,11 +4,7 @@ define datadog_agent::tag(
   $lookup_fact = false,
 ){
 
-  if $datadog_agent::params::agent6_enable {
-    $local_config_dir = $datadog_agent::params::conf6_dir
-    } else {
-    $local_config_dir = $datadog_agent::params::conf_dir
-  }
+  $local_config_dir = '/etc/dd-agent/datadog.conf'
   if $lookup_fact{
     $value = getvar($tag_name)
 
