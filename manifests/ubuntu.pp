@@ -39,7 +39,8 @@ class datadog_agent::ubuntu(
   # $facts hash - for compatibility with puppet3.x default behavior
   if $::apt_agent6_beta_repo and $agent_version == 'latest' {
     exec { 'datadog_apt-get_remove_agent6':
-      command     => '/usr/bin/apt-get remove -y -q datadog-agent',
+      command => '/usr/bin/apt-get remove -y -q datadog-agent',
+      onlyif  => '/usr/bin/dpkg -l datadog-agent > /dev/null'
     }
   } else {
     exec { 'datadog_apt-get_remove_agent6':
@@ -89,7 +90,7 @@ class datadog_agent::ubuntu(
     ensure    => $::datadog_agent::service_ensure,
     enable    => $::datadog_agent::service_enable,
     hasstatus => false,
-    pattern   => 'dd-agent',
+    pattern   => "^(dd|datadog)-agent",
     require   => Package[$datadog_agent::params::package_name],
   }
 }
